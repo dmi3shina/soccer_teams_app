@@ -5,65 +5,66 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Soccer Teams App</title>
+  <title>Soccer teams</title>
 
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <style>
-        html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
-        #teams                  { margin-bottom:30px; }
-    </style>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="core.js"></script>
-
+  <style>
+      html { overflow-y:scroll; }
+      body { padding-top:50px; overflow-wrap:break-word; }
+      .login input {border-radius:5px; margin:2px;}
+      #teams { margin-bottom:30px; }
+  </style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+  <script src="//code.angularjs.org/1.2.13/angular-cookies.js"></script>
+  <script src="core.js"></script>
 </head>
 
 <body ng-controller="mainController">
-  <!--div class="login">
+
+  <div class="login jumbotron col-sm-4 col-sm-offset-4 text-center">
+    <h1> Soccer teams </h1>
+    <div class="alert alert-danger" style="display:none;">
+      Invalid username or password.<br />
+    </div>
     <form>
-      <div class="col-sm-4 col-sm-offset-4 text-center" style="background-color:#eee; border-radius: 3px; margin: 2px 60px;">
-        <input type="text" placeholder="username" ng-model="username" required > <br />
-        <input type="text" placeholder="password" ng-model="password" required > <br />
-        <button type="submit" class="btn btn-link" ng-click="login()">Login</button>
-      </div>
+      <input type="text" class="text-center" placeholder="username" ng-model="username" required > </br>
+      <input type="password" class="text-center" placeholder="password" ng-model="password" required> </br>
+      <button type="submit" class="btn btn-primary btn-lg" ng-click="login()">Login</button>
     </form>
-  </div-->
+  </div>
 
-  <div class="container">   <!--style="display:none;"-->
-
+  <div class="container" style="display:none;">
     <div class="jumbotron text-center">
       <h1> Soccer teams </h1>
+      <input type="button" class="btn btn-primary btn-lg" value="Logout" ng-click="logout()">
     </div>
-
     <div id="teams" class="row">
-      <div class="col-sm-4 col-sm-offset-4">
+      <div class="col-sm-6 col-sm-offset-3">
         <div ng-repeat="team in teams">
-          <label style="margin: 10px 0px;"> {{ team.team }} </label> <br />
+          <label style="margin:10px 0px;"> {{ team.team }} </label> <br />
           <input type="button" class="btn btn-link" value="Remove team" ng-click="deleteTeam(team.id)" />
           <div ng-repeat="player in team.players">
-            <div class="col-sm-8 col-sm-offset-4" style="background-color:#eee; border-radius: 3px; margin: 2px 60px;"> <!-- border: 1px solid #aaa;-->
+            <div style="background-color:#eee; border-radius:3px; margin:5px; padding:1px;">
               <input type="button" class="btn btn-link" value="Remove" ng-click="deletePlayer(team.id, player)"> {{ player }}
             </div>
           </div>
           <form>
-            <div class="col-sm-8 col-sm-offset-4 text-center" style="background-color:#eee; border-radius: 3px; margin: 2px 60px;"> <!-- border: 1px solid #aaa;-->
-              <input type="text" class="form-control input-sm text-center" style="margin: 5px;" placeholder="new player" ng-model="newPlayer[team.id]" required >
-              <button type="submit" class="btn btn-link" ng-click="createPlayer(team.id)">Add</button>
+            <div class="text-center" style="background-color:#eee; border-radius:3px; margin:5px; padding:5px">
+              <input type="text" class="form-control input-sm text-center" placeholder="new player" ng-model="newPlayer[team.id]" required >
+              <button type="submit" class="btn btn-link" ng-disabled="!newPlayer[team.id]" ng-click="createPlayer(team.id)">Add</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-
     <div id="team-form" class="row">
       <div class="col-sm-8 col-sm-offset-2 text-center">
         <form>
           <div class="form-group">
-            <input type="text" class="form-control input-md text-center" placeholder="new team" ng-model="formData.text">
+            <input type="text" class="form-control input-md text-center" placeholder="new team" ng-model="formData.text" required>
           </div>
-          <button type="submit" class="btn btn-primary btn-md" ng-click="createTeam()">Add</button>
+          <button type="submit" class="btn btn-primary btn-md" ng-disabled="!formData.text" ng-click="createTeam()">Add</button>
         </form>
       </div>
     </div>

@@ -1,14 +1,18 @@
 var express        = require('express');
 var app            = express();
+var basicAuth      = require('express-basic-auth');
 var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 
 app.use(express.static(__dirname + '/public'));
+app.use(basicAuth({
+    users: { 'admin': 'pass',
+             'sample': 'sample' }
+}));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
-app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 
 var team_id = -1;
